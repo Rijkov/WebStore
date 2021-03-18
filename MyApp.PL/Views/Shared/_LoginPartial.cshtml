@@ -1,0 +1,32 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "nav-link" }))
+    {
+        @Html.AntiForgeryToken()
+
+
+        @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+        <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+    }
+}
+
+else
+    {
+<ul class="nav navbar-nav navbar-right">
+    @*<li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
+    <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    <li class="nav-item">
+        <a id="quant_cart" style="margin-top:-15px" href="/Home/Cart" class="nav-item">
+            <img class="nav-item" width="30" height="30" src="~/Images/cart.png" />
+            @ViewBag.quantity
+        </a>
+    </li>
+</ul>
+
+<style>
+    #loginLink{
+        margin-top:-10px;
+    }
+</style>
+            }
