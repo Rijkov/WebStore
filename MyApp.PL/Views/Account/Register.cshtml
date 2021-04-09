@@ -9,7 +9,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-widthf initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -33,7 +33,10 @@
             {
                 <h5 style="color:red;font-family:'Times New Roman'">@ViewBag.err[0]</h5>
             }
-            else { }
+            else
+            { 
+               <h5 style="color:red;font-family:'Times New Roman'">@ViewBag.error</h5>
+            }
             <!-- Login Form -->
             @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {

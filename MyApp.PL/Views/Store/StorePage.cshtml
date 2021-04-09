@@ -8,45 +8,45 @@
 
     <!-- Navigation -->
     @*<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="~/Store/StorePage/" style="font-size:x-large">Web Store</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">
-                            Home
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                    </li>
-                    <li class="nav-item">
-                        @Html.ActionLink("Show all Files", "AllFiles", "Page", "", new { @class = "nav-link" })
-                    </li>
-                    <li class="nav-item">
-                        @Html.ActionLink("Contact", "FeedBack", "Email", "", new { @class = "nav-link" })
-                    </li>
-                    <li class="nav-item">
-                        @Html.ActionLink("Log in", "SignIn", "Register", "", new { @class = "nav-link" })
-                    </li>
-                    <li class="nav-item">
-                        <p style="margin:0 0 0 30px;color:greenyellow" class="nav-link" href="#">@ViewBag.welcome</p>
-                    </li>
-                    <li class="nav-item">
-                        <a id="quant_cart" style="margin-left:50px" href="/Home/Cart" class="nav-item">
-                            <img class="nav-item" width="50" height="50" src="~/Images/cart.png" />
-                            @ViewBag.quantity
-                        </a>
-                    </li>
-                </ul>
+            <div class="container">
+                <a class="navbar-brand" href="~/Store/StorePage/" style="font-size:x-large">Web Store</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">
+                                Home
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">About</a>
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Show all Files", "AllFiles", "Page", "", new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Contact", "FeedBack", "Email", "", new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Log in", "SignIn", "Register", "", new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            <p style="margin:0 0 0 30px;color:greenyellow" class="nav-link" href="#">@ViewBag.welcome</p>
+                        </li>
+                        <li class="nav-item">
+                            <a id="quant_cart" style="margin-left:50px" href="/Home/Cart" class="nav-item">
+                                <img class="nav-item" width="50" height="50" src="~/Images/cart.png" />
+                                @ViewBag.quantity
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>*@
+        </nav>*@
 
     @using (Html.BeginForm("StorePage", "Store", FormMethod.Get))
     {
@@ -57,11 +57,27 @@
                 <div class="col-lg-3">
 
                     <h1 class="my-4">Shop Name</h1>
-                    <div class="list-group">
+
+                    <p id="categ_hidden" class="btn btn-warning">Show All Categories</p>
+
+                    <div id="categories" class="list-group">
+                        <br />
                         <a href="#" class="list-group-item">Category 1</a>
                         <a href="#" class="list-group-item">Category 2</a>
                         <a href="#" class="list-group-item">Category 3</a>
                     </div>
+
+                    <script>
+                        $(document).ready(function () {
+                            $("#categories").hide();
+                            $("#categ_hidden").click(function () {
+                                var categs = document.getElementById("#categories").style;
+                                if (categs.display == "none")
+                                    $("#categories").show("slow");
+                                else $("#categories").hide("hide");
+                            });
+                        });
+                    </script>
 
                 </div>
                 <!-- /.col-lg-3 -->
@@ -105,35 +121,32 @@
                         <input type="button" id="btn_upload" value="Upload any file" />
                         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
                         <script>
-                                $(document).ready(function () {
-                                    $('#btn_upload').click(function () {
-                                        if (window.FormData !== undefined) {
-                                            var fileUpload = $("#file_upload").get(0);
-                                            var files = fileUpload.files;
-
-                                            var fileData = new FormData();
-
-                                            for (var i = 0; i < files.length; i++) {
-                                                fileData.append(files[i].name, files[i]);
-                                            }
-
-                                            $.ajax({
-                                                url: '/Store/UploadFiles',
-                                                type: "POST",
-                                                contentType: false,
-                                                processData: false,
-                                                data: fileData,
-                                                success: function (result) {
-                                                    alert(result);
-                                                },
-                                                error: function (err) {
-                                                    alert(err.statusText);
-                                                }
-                                            });
+                            $(document).ready(function () {
+                                $('#btn_upload').click(function () {
+                                    if (window.FormData !== undefined) {
+                                        var fileUpload = $("#file_upload").get(0);
+                                        var files = fileUpload.files;
+                                        var fileData = new FormData();
+                                        for (var i = 0; i < files.length; i++) {
+                                            fileData.append(files[i].name, files[i]);
                                         }
-                                        else { alert("FormData is not supported..."); }
-                                    });
+                                        $.ajax({
+                                            url: '/Store/UploadFiles',
+                                            type: "POST",
+                                            contentType: false,
+                                            processData: false,
+                                            data: fileData,
+                                            success: function (result) {
+                                                alert(result);
+                                            },
+                                            error: function (err) {
+                                                alert(err.statusText);
+                                            }
+                                        });
+                                    }
+                                    else { alert("FormData is not supported..."); }
                                 });
+                            });
                         </script>
                     </div>
 
@@ -171,6 +184,7 @@
                                             }
                                             <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
                                             <br />
+                                            <!-- Here will changed on Submit button -->
                                             @Html.ActionLink("Buy", "StorePage", "Store", new { id = item.Id, style = "width:65px;height:25px;color:black;background-color:forestgreen" }, "")
                                         </div>
                                     </div>
@@ -191,6 +205,8 @@
 <!-- /.container -->
 <!-- Footer -->
 
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
 
 
 <style>

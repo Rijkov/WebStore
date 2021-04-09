@@ -6,6 +6,7 @@
     using System.Configuration;
     using System.Collections.Generic;
     using System;
+    using System.Linq;
     using System.Web;
     using System.IO;
 
@@ -20,10 +21,20 @@
             db = new OrderService(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
         }
 
+        [HttpGet]
         public ActionResult StorePage(int? Id)
         {
-            IEnumerable<ProductDTO> result = InitProducts();
-            PutItemCart(Id);
+            if (quantity != 0)
+                ViewBag.quantity = quantity;
+            IEnumerable<ProductDTO> result = InitProducts(); // The products in table
+            if(shop_cart.Count != 0 || Id != null)
+            {
+                ProductDTO select = shop_cart.Where(i => i.Id == Id).FirstOrDefault();
+                if (select == null) // If selection product doesn't exist
+                {
+                     PutItemCart(Id);
+                }      
+            }
 
             return View(result);
         }

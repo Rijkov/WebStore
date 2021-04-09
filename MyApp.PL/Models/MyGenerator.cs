@@ -2,11 +2,7 @@
 {
     public class MyGenerator
     {
-        public static string Connection()
-        {
-            string conn;
-            conn = System.Configuration.ConfigurationManager.ConnectionStrings["connection"].ConnectionString;
-            return conn;
-        }
+        public static string Connection() =>
+            System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
     }
 }

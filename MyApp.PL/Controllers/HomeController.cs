@@ -115,6 +115,16 @@
             return RedirectToAction("Store", "StorePage");
         }
 
+        public ActionResult AllFiles()
+        {
+            DirectoryInfo d = new DirectoryInfo(Server.MapPath("~/Uploaded_Files/"));//Assuming Test is your Folder
+            FileInfo[] Files = d.GetFiles(); //Getting Text files
+            string[] str = new string[Files.Length];
+            for (int i = 0; i < Files.Length; i++)
+                str[i] = Files[i].Name;
+            return View(str);
+        }
+
         [HttpPost]
         public ActionResult Index(UserDTO user)
         {

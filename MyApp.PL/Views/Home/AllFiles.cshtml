@@ -1,0 +1,17 @@
+﻿@model IEnumerable<string>
+@{
+    ViewBag.Title = "AllFiles";
+}
+
+<h4 style="text-align:center;color:greenyellow">All Users Files</h4>
+
+
+<div class="container">
+    <div style="width:350px;margin:auto">
+        @foreach (var item in Model)
+        {
+            <a href="~/Uploaded_Files/@item">@item</a><br />
+        }
+    </div>
+
+</div>

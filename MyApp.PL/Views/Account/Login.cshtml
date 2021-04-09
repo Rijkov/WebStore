@@ -11,6 +11,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="~/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -32,22 +33,36 @@
             </div>
             <h5 style="color:red;font-family:'Times New Roman'">@ViewBag.errorMsg</h5>
             <!-- Login Form -->
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role= "form"}))
+            @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken()
                 <fieldset>
-                    @Html.TextBoxFor(model => model.Email, new { @class = "fadeIn second", @placeholder = "Login" })
+                    @Html.TextBoxFor(model => model.Email, new { @class = "fadeIn second", @placeholder = "Email" })
                     @Html.TextBoxFor(model => model.Password, new { @class = "fadeIn third", placeholder = "Password" })
                 </fieldset>
                 <input type="submit" class="fadeIn fourth" value="Log In">
             }
 
             <!-- Remind Passowrd -->
-            <div id="formFooter">
-                Don't have an account?  @Html.ActionLink("Sign Up", "Register", "Account", "", new { @class = "underlineHover" })
-            </div>
+        <div id="formFooter">
+            Don't have an account?  @Html.ActionLink("Sign Up", "Register", "Account", "", new { @class = "underlineHover" })
+            <br /><br />
 
+                  <a id="bk_btn" href="/Store/StorePage">
+                      <i class="fa fa-fast-backward" aria-hidden="true"></i>   Go Back
+                  </a>
+        </div>
         </div>
     </div>
+    <style>
+        #bk_btn{
+            color: darkorange;
+            text-decoration: none;
+        }
+        #bk_btn:hover {
+            color: gold;
+            
+        }
+    </style>
 </body>
 </html>

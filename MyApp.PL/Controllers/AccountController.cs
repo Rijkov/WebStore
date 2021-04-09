@@ -83,7 +83,7 @@ namespace MyApp.PL.Controllers
                     UserDTO currUser = Db.GetUserbyEmail(model.Email);
                     if (currUser != null)
                         id = currUser.id;
-                    return RedirectToLocal(returnUrl);
+                        return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -193,9 +193,10 @@ namespace MyApp.PL.Controllers
                     {
                         Db.AddUser(us);
                         Db.Save();
-                        id = us.id;
+                        var found = Db.GetAllUsers().FirstOrDefault(attr => attr.email == us.email);
+                        id = found.id;
                     }
-                    catch(DataException dex) { flag = false; ViewBag.check = flag; ViewBag.err = dex.Message; }
+                    catch (DataException dex) { flag = false; ViewBag.check = flag; ViewBag.err = dex.Message; }
 
                     return RedirectToAction("Confirm", "Account", new { Email = user.Email }); 
                 }
@@ -207,6 +208,10 @@ namespace MyApp.PL.Controllers
                     return View();
                 }
             }
+            else
+            {
+                ViewBag.error = "Something went wrong....";
+            }
 
             return View(model);
         }
@@ -215,14 +220,27 @@ namespace MyApp.PL.Controllers
         public string Confirm(string Email) => $"To the postal address {Email} further instructions for completing registration";
 
         [AllowAnonymous]
-        public async Task<ActionResult> ConfirmEmail(string userId, string code)
+        public async Task<ActionResult> ConfirmEmail(string Token, string Email)
         {
-            if (userId == null || code == null)
+            ApplicationUser user = this.UserManager.FindById(Token);
+            if (user != null)
             {
-                return View("Error");
+                if (user.Email == Email)
+                {
+                    user.ConfirmedEmail = true;
+                    await UserManager.UpdateAsync(user);
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    return RedirectToAction("StorePage", "Store", new { ConfirmedEmail = user.Email });
+                }
+                else
+                {
+                    return RedirectToAction("Confirm", "Account", new { Email = user.Email });
+                }
             }
-            var result = await UserManager.ConfirmEmailAsync(userId, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+            else
+            {
+                return RedirectToAction("Confirm", "Account", new { Email = "" });
+            }
         }
 
         //
