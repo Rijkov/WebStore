@@ -60,16 +60,20 @@
 
                     <p id="categ_hidden" class="btn btn-warning">Show All Categories</p>
 
-                    <div id="categories" class="list-group">
+
+                    <div style="display:none" id="categories" class="list-group">
                         <br />
                         <a href="#" class="list-group-item">Category 1</a>
                         <a href="#" class="list-group-item">Category 2</a>
                         <a href="#" class="list-group-item">Category 3</a>
                     </div>
+                        
 
+
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
                     <script>
                         $(document).ready(function () {
-                            $("#categories").hide();
+                            //$("#categories").hide();
                             $("#categ_hidden").click(function () {
                                 var categs = document.getElementById("#categories").style;
                                 if (categs.display == "none")
@@ -78,6 +82,19 @@
                             });
                         });
                     </script>
+
+
+                    @*<script>
+                            $(document).ready(function () {
+                                $("#ll").hide();
+                                $("#hiddenShow").click(function () {
+                                    var sel = document.getElementById("ll").style;
+                                    if (sel.display == "none")
+                                        $("#ll").show("slow");
+                                    else $("#ll").hide("slow");
+                                });
+                            });
+                        </script>*@
 
                 </div>
                 <!-- /.col-lg-3 -->
